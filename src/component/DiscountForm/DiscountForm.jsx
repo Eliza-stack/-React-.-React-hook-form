@@ -1,58 +1,38 @@
 /* eslint-disable react/prop-types */
 import { Form, Input } from "antd";
-import style from "./DiscountForm.scss";
-import { Controller } from "react-hook-form";
 
-export default function DiscountForm({ form, handleChange }) {
+export default function DiscountForm({ form, values, handleChange }) {
   return (
     <Form form={form} layout="vertical">
-      <Form.Item
-        label="Наименование товара"
-        name="product"
-        rules={[
-          {
-            required: true,
-            pattern: /^[a-zA-Z]+$/,
-            message: "Только латинские буквы!",
-          },
-        ]}
-      >
+      <Form.Item label="Наименование товара">
         <Input
-          placeholder="Наименование товара"
-          onChange={handleChange("product")}
+          value={values.name}
+          onChange={(e) => handleChange("name", e.target.value)}
+          placeholder="Введите название"
         />
       </Form.Item>
-      <Form.Item
-        label="Количество"
-        name="quantity"
-        rules={[{ required: true, type: "number", min: 1 }]}
-      >
+      <Form.Item label="Количество">
         <Input
           type="number"
-          placeholder="Количество"
-          onChange={handleChange("quantity")}
+          value={values.quantity}
+          onChange={(e) => handleChange("quantity", e.target.value)}
+          placeholder="Введите количество"
         />
       </Form.Item>
-      <Form.Item
-        label="Цена за единицу"
-        name="price"
-        rules={[{ required: true, type: "number", min: 1 }]}
-      >
+      <Form.Item label="Цена за единицу">
         <Input
           type="number"
-          placeholder="Цена за единицу"
-          onChange={handleChange("price")}
+          value={values.price}
+          onChange={(e) => handleChange("price", e.target.value)}
+          placeholder="Введите цену"
         />
       </Form.Item>
-      <Form.Item
-        label="Процент скидки"
-        name="discount"
-        rules={[{ required: true, type: "number", min: 0 }]}
-      >
+      <Form.Item label="Процент скидки">
         <Input
           type="number"
-          placeholder="Процент скидки"
-          onChange={handleChange("discount")}
+          value={values.discount}
+          onChange={(e) => handleChange("discount", e.target.value)}
+          placeholder="Введите скидку"
         />
       </Form.Item>
     </Form>

@@ -1,4 +1,3 @@
-import "./TotalAmount.scss";
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
 

@@ -1,42 +1,46 @@
-
 import { useState, useMemo, useCallback } from "react";
 import { Form } from "antd";
-import DiscountForm from "./component/DiscountForm/DiscountForm.jsx";
-import TotalAmount from "./component/TotalAmount/TotalAmount.jsx";
+import DiscountForm from "./components/DiscountForm.jsx";
+import TotalAmount from "./components/TotalAmount.jsx";
 import "./App.scss";
 
 export default function App() {
   const [form] = Form.useForm();
-  const [total, setTotal] = useState(0);
-  const [isValid, setIsValid] = useState(true);
+  const [values, setValues] = useState({
+    name: "",
+    quantity: "",
+    price: "",
+    discount: "",
+  });
 
-  const handleChange = useCallback(
-    (name) => (e) => {
-      const value = e.target.value;
-      form.setFieldsValue({ [name]: value });
+  const handleChange = useCallback((name, value) => {
+    setValues((prev) => ({ ...prev, [name]: value }));
+  }, []);
 
-      const quantity = form.getFieldValue("quantity") || 0;
-      const price = form.getFieldValue("price") || 0;
-      const discount = form.getFieldValue("discount") || 0;
+  const total = useMemo(() => {
+    const { quantity, price, discount } = values;
+    const q = Number(quantity);
+    const p = Number(price);
+    const d = Number(discount);
 
-      if (quantity > 0 && price > 0 && discount >= 0) {
-        const discountAmount = quantity * price * (discount / 100);
-        const finalTotal = quantity * price - discountAmount;
-        setTotal(finalTotal);
-        setIsValid(true);
-      } else {
-        setIsValid(false);
-      }
-    },
-    [form]
-  );
+    if (q > 0 && p > 0 && d >= 0 && /^[a-zA-Z]+$/.test(values.name)) {
+      return q * p - (q * p * d) / 100;
+    }
+    return 0;
+  }, [values]);
 
   return (
     <div className="app-container">
       <h2>Калькулятор скидки</h2>
-      <DiscountForm form={form} handleChange={handleChange} />
-      <TotalAmount total={total} isValid={isValid} />
-      <button onClick={() => form.resetFields()}>Очистить</button>
+      <DiscountForm form={form} values={values} handleChange={handleChange} />
+      <TotalAmount total={total} isValid={total > 0} />
+      <button
+        onClick={() =>
+          setValues({ name: "", quantity: "", price: "", discount: "" })
+        }
+      >
+        Очистить
+      </button>
     </div>
   );
 }
