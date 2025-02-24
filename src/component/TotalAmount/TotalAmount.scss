@@ -1,7 +1,7 @@
 .total-amount {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-top: 20px;
-    color: #333;
-  }
-  
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #333; 
+  transition: opacity 0.3s, transform 0.3s; 
+}

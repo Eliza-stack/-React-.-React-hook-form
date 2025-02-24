@@ -1,16 +1,16 @@
 import { useState, useMemo, useCallback } from "react";
-import { Form } from "antd";
-import DiscountForm from "./components/DiscountForm.jsx";
-import TotalAmount from "./components/TotalAmount.jsx";
+import { Button, Form } from "antd";
+import DiscountForm from "./component/DiscountForm/DiscountForm.jsx";
+import TotalAmount from "./component/TotalAmount/TotalAmount.jsx";
 import "./App.scss";
 
 export default function App() {
   const [form] = Form.useForm();
   const [values, setValues] = useState({
     name: "",
-    quantity: "",
-    price: "",
-    discount: "",
+    quantity: 0,
+    price: 0,
+    discount: 0,
   });
 
   const handleChange = useCallback((name, value) => {
@@ -23,7 +23,7 @@ export default function App() {
     const p = Number(price);
     const d = Number(discount);
 
-    if (q > 0 && p > 0 && d >= 0 && /^[a-zA-Z]+$/.test(values.name)) {
+    if (q >= 0 && p >= 0 && d >= 0 && /^[а-яА-ЯёЁ\s]+$/.test(values.name)) {
       return q * p - (q * p * d) / 100;
     }
     return 0;
@@ -34,13 +34,13 @@ export default function App() {
       <h2>Калькулятор скидки</h2>
       <DiscountForm form={form} values={values} handleChange={handleChange} />
       <TotalAmount total={total} isValid={total > 0} />
-      <button
+      <Button
         onClick={() =>
-          setValues({ name: "", quantity: "", price: "", discount: "" })
+          setValues({ name: "", quantity: 0, price: 0, discount: 0 })
         }
       >
         Очистить
-      </button>
+      </Button>
     </div>
   );
 }
