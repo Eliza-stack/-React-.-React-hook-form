@@ -1,0 +1,17 @@
+.discount-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    
+    .ant-input {
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      &:focus {
+        border-color: #1890ff;
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      }
+    }
+  }
+  
